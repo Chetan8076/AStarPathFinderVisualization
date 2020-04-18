@@ -1,6 +1,8 @@
 import pygame
 from pygame.locals import*
 import sys
+import tkinter as tk
+from tkinter import ttk
 
 
 Text_Font=("Verdana", 12)
@@ -133,6 +135,23 @@ def aStarPathFinder(graph,start,goal):
                 openSetNode.add(node)
     
 
+#Popup message to show no path found
+def popupmsg(msg):
+    popup = tk.Tk()
+    popup.geometry("200x100")
+
+    def leavemini():
+        popup.destroy()
+        sys.exit()
+    popup.wm_title(" Info")
+    label=ttk.Label(popup, text=msg, font= Text_Font)
+    label.pack(side="top", fill="x",pady=10)
+    B1= ttk.Button(popup, text="Okay", command = leavemini)
+    B1.place(relx = 0.5, rely = 0.5)
+    B1.pack()
+    popup.mainloop()
+
+
 
 def WelcomeScreen():
     global graph
@@ -159,7 +178,9 @@ def WelcomeScreen():
                 flag = False
                 a=aStarPathFinder(graph, start, goal)
                 if a == None:
-                    SCREEN.blit(pygame.image.load('download.jpg'),(40,40))
+                    # SCREEN.blit(pygame.image.load('download.jpg'),(40,40))
+                    # pygame.time.delay(100)
+                    popupmsg("Path not Found")
                     for i in range(len(graph)):
                         print(graph[i])
                 else:
